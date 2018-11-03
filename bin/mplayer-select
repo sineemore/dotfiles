@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e
+
+cd ~/?ownloads/
+
+f="$(find . -type f | sed s/^..// | dmenu -l 20 -fn 'Gohufont:pixels''ize=14' -nb '#000000' -nf '#ffffff' -sb '#ffffff' -sf '#000000')"
+[ -f "$f" ] || exit 1
+
+exec mplayer -softvol -softvol-max 2000 -fs "$f"

@@ -1,0 +1,2 @@
+#!/bin/sh
+watch --color script -eqc 'make' /dev/null

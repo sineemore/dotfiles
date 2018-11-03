@@ -1,0 +1,101 @@
+diff --git a/config.def.h b/config.def.h
+index 1c0b587..0d25c0b 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -51,6 +51,12 @@ static const Layout layouts[] = {
+ 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
+ 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+ 
++static Window scratchpad_wins[4];
++
++#define SPADKEYS(KEY,NUM) \
++	{ 0,                            KEY,       scratchpad_view, {.i = NUM} }, \
++	{ MODKEY,                       KEY,       scratchpad_set,  {.i = NUM} },
++
+ /* helper for spawning shell commands in the pre dwm-5.0 fashion */
+ #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+ 
+@@ -93,6 +99,10 @@ static Key keys[] = {
+ 	TAGKEYS(                        XK_7,                      6)
+ 	TAGKEYS(                        XK_8,                      7)
+ 	TAGKEYS(                        XK_9,                      8)
++	SPADKEYS(                       XK_F1,                     0)
++	SPADKEYS(                       XK_F2,                     1)
++	SPADKEYS(                       XK_F3,                     2)
++	SPADKEYS(                       XK_F4,                     3)
+ 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+ };
+ 
+diff --git a/dwm.c b/dwm.c
+index 4465af1..2927622 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -194,6 +194,8 @@ static void resizemouse(const Arg *arg);
+ static void restack(Monitor *m);
+ static void run(void);
+ static void scan(void);
++static void scratchpad_set(const Arg *arg);
++static void scratchpad_view(const Arg *arg);
+ static int sendevent(Client *c, Atom proto);
+ static void sendmon(Client *c, Monitor *m);
+ static void setclientstate(Client *c, long state);
+@@ -1407,6 +1409,59 @@ scan(void)
+ 	}
+ }
+ 
++void
++scratchpad_set(const Arg *arg)
++{
++	Monitor *m = mons;
++	Client *c;
++	if (!selmon->sel)
++		return;
++
++	while (m) {
++		c = m->clients;
++		while (c) {
++			if (c->win == scratchpad_wins[arg->i])
++				goto found;
++
++			c = c->next;
++		}
++		m = m->next;
++	}
++found:
++	if (selmon->sel == c || !c)
++		scratchpad_wins[arg->i] = 0;
++
++	if (!c)
++		scratchpad_wins[arg->i] = selmon->sel->win;
++}
++
++void
++scratchpad_view(const Arg *arg)
++{
++	Monitor *m = mons;
++	Client *c;
++	while (m) {
++		c = m->clients;
++		while (c) {
++			if (c->win == scratchpad_wins[arg->i])
++				goto found;
++
++			c = c->next;
++		}
++		m = m->next;
++	}
++	return;
++found:
++	c->tags = selmon->sel != c ? c->mon->tagset[c->mon->seltags] : 0;
++	if (c->mon != selmon) {
++		c->x = selmon->mx + (c->x - c->mon->mx);
++		c->y = selmon->my + (c->y - c->mon->my);
++		sendmon(c, selmon);
++	}
++	focus(selmon->sel != c ? c : NULL);
++	arrange(selmon);
++}
++
+ void
+ sendmon(Client *c, Monitor *m)
+ {
