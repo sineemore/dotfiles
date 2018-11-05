@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# translate-xsel - translate clipboard via "Google Translate"
+
+die() {
+	printf 'translate-xsel: %s' "$1" >&2
+	notify-send "translate-xsel" "$1"
+	exit 1
+}
+
+sl='auto'
+tl='en'
+
+command -v xclip >/dev/null || die "xclip command not found in PATH"
+
+src="$(xclip -o)"
+[ $? -ne 0 ] && die 'xclip retcode is not 0'
+[ -z "$src" ] && die 'Empty clipboard, nothing to translate'
+
+raw=$(wget -U "Mozilla/5.0" -qO- "http://translate.googleapis.com/translate_a/single?client=gtx&sl=${sl}&tl=${tl}&dt=t&q=${src}")
+[ $? -ne 0 ] && die 'wget retcode is not 0'
+
+translated=$(printf '%s' "$raw" | jq -r '.[0]?[0]?[0]? // .')
+[ -n "$translated" ] || die "Not translated"
+
+notify-send "translate-xsel" "${src}\n${translated}"
