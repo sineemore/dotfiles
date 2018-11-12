@@ -19,7 +19,7 @@ index 1c0b587..31fd27a 100644
  	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
  	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 diff --git a/dwm.c b/dwm.c
-index 4465af1..a9bc1f2 100644
+index 4465af1..fe42a63 100644
 --- a/dwm.c
 +++ b/dwm.c
 @@ -163,6 +163,7 @@ static void detachstack(Client *c);
@@ -64,13 +64,11 @@ index 4465af1..a9bc1f2 100644
  void
  motionnotify(XEvent *e)
  {
-@@ -1282,6 +1310,9 @@ resizeclient(Client *c, int x, int y, int w, int h)
+@@ -1282,6 +1310,7 @@ resizeclient(Client *c, int x, int y, int w, int h)
  	c->oldw = c->w; c->w = wc.width = w;
  	c->oldh = c->h; c->h = wc.height = h;
  	wc.border_width = c->bw;
-+	if (c->mon->lt[c->mon->sellt]->arrange == ego && !c->isfloating) {
-+		wc.border_width = 0;
-+	}
++	if (c->mon->lt[c->mon->sellt]->arrange == ego && !c->isfloating) wc.border_width = 0;
  	XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
  	configure(c);
  	XSync(dpy, False);
