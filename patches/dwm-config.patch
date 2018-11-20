@@ -1,5 +1,5 @@
 diff --git a/config.def.h b/config.def.h
-index 1c0b587..dae0bd7 100644
+index 1c0b587..d8f1eee 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -5,21 +5,16 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -69,7 +69,7 @@ index 1c0b587..dae0bd7 100644
  	/* modifier                     key        function        argument */
  	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
  	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-+	{ MODKEY,                       XK_t,      spawn,          {.v = translate_cmd } },
++	{ MODKEY,                       XK_y,      spawn,          {.v = translate_cmd } },
 +	{ MODKEY,                       XK_l,      spawn,          {.v = slockcmd } },
  	{ MODKEY,                       XK_b,      togglebar,      {0} },
 -	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },

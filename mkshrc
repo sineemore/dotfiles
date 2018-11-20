@@ -1,0 +1,31 @@
+#!/bin/sh
+
+PS1='$(if [ "$PWD" = "$HOME" ]; then echo "~ "; else echo "$(basename "$PWD") "; fi)'
+
+set +o histsync
+
+CDPATH=".:/home/user/x"
+HISTFILE=~/.mksh_history
+HISTSIZE=333333
+export EDITOR=vis
+
+alias l='ls -Alhtr --color=auto '
+alias xq='xbps-query -Rs '
+alias xi='sudo xbps-install '
+alias mount='sudo mount '
+alias umount='sudo umount '
+alias ip='sudo ip'
+
+cd() {
+	builtin cd "$@" && \
+	/usr/bin/printf '\e]2;%s\e\' "$(pwd)"
+}
+
+bind '^L'=clear-screen
+bind '^XA'=search-history-up
+bind '^XB'=search-history-down
+bind '^H'=delete-word-backward
+bind '^[[M'=delete-word-forward
+bind '^F'=search-character-forward
+
+/usr/bin/printf '\e]2;%s\e\' "$(pwd)"

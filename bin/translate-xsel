@@ -3,24 +3,33 @@
 # translate-xsel - translate clipboard via "Google Translate"
 
 die() {
-	printf 'translate-xsel: %s' "$1" >&2
+	printf 'translate-xsel: %s\n' "$1" >&2
 	notify-send "translate-xsel" "$1"
 	exit 1
 }
 
-sl='auto'
-tl='en'
+command -v jq notify-send whet xclip >/dev/null \
+|| die 'required command not found in PATH'
 
-command -v xclip >/dev/null || die "xclip command not found in PATH"
+sl='auto'
+tl='ru'
+
+# Naive language guess
+printf '%s' "$src" | grep -Pq '[А-Яа-я]' && {
+	sl='ru'
+	tl='en'
+}
 
 src="$(xclip -o)"
-[ $? -ne 0 ] && die 'xclip retcode is not 0'
-[ -z "$src" ] && die 'Empty clipboard, nothing to translate'
+[ $? -eq 0 ]  || die 'xclip retcode is not 0'
+[ -n "$src" ] || die 'empty clipboard, nothing to translate'
 
 raw=$(wget -U "Mozilla/5.0" -qO- "http://translate.googleapis.com/translate_a/single?client=gtx&sl=${sl}&tl=${tl}&dt=t&q=${src}")
-[ $? -ne 0 ] && die 'wget retcode is not 0'
+[ $? -eq 0 ]  || die 'wget retcode is not 0'
+[ -n "$raw" ] || die 'empty response'
 
-translated=$(printf '%s' "$raw" | jq -r '.[0]?[0]?[0]? // .')
-[ -n "$translated" ] || die "Not translated"
+res=$(printf '%s' "$raw" | jq -r '.[0]?[0]?[0]? // .')
+[ $? -eq 0 ]  || die 'wget retcode is not 0'
+[ -n "$res" ] || die 'failed to parse response'
 
-notify-send "translate-xsel" "${src}\n${translated}"
+notify-send 'translate-xsel' "${src}\n\n${res}"

@@ -1,0 +1,59 @@
+local lexers = vis.lexers
+
+local colors = {
+	base03  = '#002b36',
+	base02  = '#073642',
+	base01  = '#586e75',
+	base00  = '#657b83',
+	base0   = '#839496',
+	base1   = '#93a1a1',
+	base2   = '#eee8d5',
+	base3   = '#fdf6e3',
+	yellow  = '#b58900',
+	orange  = '#cb4b16',
+	red     = '#dc322f',
+	magenta = '#d33682',
+	violet  = '#6c71c4',
+	blue    = '#268bd2',
+	cyan    = '#2aa198',
+	green   = '#859900',
+}
+
+lexers.colors = colors
+local fg = ',fore:'..colors.base0..','
+local bg = ',back:'..colors.base03..','
+
+lexers.STYLE_DEFAULT = "fore:#000000"
+lexers.STYLE_NOTHING = bg
+lexers.STYLE_CLASS = 'fore:yellow'
+lexers.STYLE_COMMENT = 'fore:#FF4136,bold'
+lexers.STYLE_CONSTANT = 'fore:'..colors.cyan
+lexers.STYLE_DEFINITION = 'fore:'..colors.blue
+lexers.STYLE_ERROR = 'fore:'..colors.red..',italics'
+lexers.STYLE_FUNCTION = 'fore:'..colors.blue
+lexers.STYLE_KEYWORD = 'fore:#0074D9,bold'
+lexers.STYLE_LABEL = 'fore:'..colors.green
+lexers.STYLE_NUMBER = 'fore:#0074D9,bold'
+lexers.STYLE_OPERATOR = 'fore:#666666,bold'
+lexers.STYLE_REGEX = 'fore:green'
+lexers.STYLE_STRING = 'fore:#F012BE,bold'
+lexers.STYLE_PREPROCESSOR = 'fore:#999999,bold'
+lexers.STYLE_TAG = 'fore:'..colors.red
+lexers.STYLE_TYPE = 'fore:#444444,bold'
+lexers.STYLE_VARIABLE = 'fore:'..colors.blue
+lexers.STYLE_WHITESPACE = 'fore:'..colors.base01
+lexers.STYLE_EMBEDDED = 'fore:#000000,back:#dddddd'
+lexers.STYLE_IDENTIFIER = "fore:#666666"
+
+lexers.STYLE_LINENUMBER = 'fore:#cccccc'
+lexers.STYLE_LINENUMBER_CURSOR = 'fore:#666666'
+lexers.STYLE_CURSOR = 'fore:#ffffff,back:#000000'
+lexers.STYLE_CURSOR_PRIMARY = 'fore:#000000,back:#FFDC00'
+lexers.STYLE_CURSOR_LINE = 'back:'..colors.base02
+lexers.STYLE_COLOR_COLUMN = 'back:'..colors.base02
+lexers.STYLE_SELECTION = 'back:#000000,fore:#ffffff'
+lexers.STYLE_STATUS = 'fore:#666666,back:#eeeeee,bold'
+lexers.STYLE_STATUS_FOCUSED = lexers.STYLE_STATUS
+lexers.STYLE_SEPARATOR = lexers.STYLE_DEFAULT
+lexers.STYLE_INFO = 'fore:default,back:default,bold'
+lexers.STYLE_EOF = 'fore:'..colors.base01

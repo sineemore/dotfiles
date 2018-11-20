@@ -1,0 +1,23 @@
+[global]
+	startup_notification = true
+	geometry = "400x10-0+16"
+	padding = 15
+	horizontal_padding = 15
+	font = Gohufont 11
+	frame_color = "#ffffff"
+	separator_height = 1
+	markup = full
+	format = "<b>%s</b>\n%b"
+	word_wrap = yes
+
+[urgency_low]
+	background = "#999999"
+	foreground = "#ffffff"
+
+[urgency_normal]
+	background = "#999999"
+	foreground = "#ffffff"
+
+[urgency_critical]
+	background = "#999999"
+	foreground = "#ffffff"
