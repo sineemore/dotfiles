@@ -47,7 +47,8 @@ end)
 vis.events.subscribe(vis.events.WIN_OPEN, function(win)
 	vis:command('set relativenumbers')
 	vis:command('set tabwidth 8')
-
+	vis:command('set rnu')
+	
 	-- git commit message (probably with diff)
 	if win.file.name and string.match(win.file.name, "COMMIT_EDITMSG$") then
 		vis:command("set syntax diff")
