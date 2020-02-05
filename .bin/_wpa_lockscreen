@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+status="$2"
+case "$status" in
+DISCONNECTED)
+	(setsid slock & >/dev/null 2>&1)
+	;;
+CONNECTED)
+	sudo pkill slock
+	;;
+esac
