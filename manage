@@ -1,0 +1,38 @@
+#!/bin/sh
+
+set -eu
+
+cd "$(dirname "$0")"
+
+root="${root:=$HOME/}"
+
+files() {
+	git ls-files | grep -v \
+		-e .gitignore \
+		-e manage \
+		-e backup
+}
+
+sync() {
+	files | rsync --files-from - "$@"
+}
+
+case "$1" in
+files)
+	files
+	;;
+install)
+	sync "$root" backup --ignore-missing-args
+	sync . "$root"
+	;;
+merge)
+	files | while read f
+	do
+		printf 'merging %s\n' "$f" >&2
+		if [ -f "${root}$f" ] && ! cmp -s "${root}$f" "$f"
+		then
+			sdiff -o t "${root}$f" "$f" </dev/tty
+		fi
+	done
+	;;
+esac
