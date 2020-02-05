@@ -14,7 +14,7 @@ export LESSOPEN="|$HOME/.lessopen.sh %s"
 export LESSHISTFILE=-
 
 if [ "$0" = -bash -a "$(tty)" = /dev/tty1 ]; then
-	exec sxinit &> /dev/null
+	exec sxinit vt1 -keeptty &> /dev/null
 fi
 
 [ -f ~/.bashrc ] && . ~/.bashrc
