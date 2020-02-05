@@ -17,4 +17,4 @@ if [ "$0" = -bash -a "$(tty)" = /dev/tty1 ]; then
 	exec sxinit &> /dev/null
 fi
 
-[ -f ~/.bashrc ] . ~/.bashrc
+[ -f ~/.bashrc ] && . ~/.bashrc
