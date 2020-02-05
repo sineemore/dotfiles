@@ -28,10 +28,14 @@ install)
 merge)
 	files | while read f
 	do
-		printf 'merging %s\n' "$f" >&2
 		if [ -f "${root}$f" ] && ! cmp -s "${root}$f" "$f"
 		then
-			sdiff -o t "${root}$f" "$f" </dev/tty
+			printf 'merging %s\n' "$f" >&2
+			if sdiff -o "$f.merge" "${root}$f" "$f" </dev/tty
+			then :; else
+				test $? = 1
+				mv "$f.merge" "$f"
+			fi
 		fi
 	done
 	;;
