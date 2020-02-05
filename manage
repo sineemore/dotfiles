@@ -4,39 +4,16 @@ set -eu
 
 cd "$(dirname "$0")"
 
-root="${root:=$HOME/}"
-
-files() {
+run_files() {
 	git ls-files | grep -v \
 		-e .gitignore \
 		-e manage \
 		-e backup
 }
 
-sync() {
-	files | rsync --files-from - "$@"
+run_sync() {
+	run_files | rsync --ignore-missing-args --files-from - "$@"
 }
 
-case "$1" in
-files)
-	files
-	;;
-install)
-	sync "$root" backup --ignore-missing-args
-	sync . "$root"
-	;;
-merge)
-	files | while read f
-	do
-		if [ -f "${root}$f" ] && ! cmp -s "${root}$f" "$f"
-		then
-			printf 'merging %s\n' "$f" >&2
-			if sdiff -o "$f.merge" "${root}$f" "$f" </dev/tty
-			then :; else
-				test $? = 1
-				mv "$f.merge" "$f"
-			fi
-		fi
-	done
-	;;
-esac
+cmd="$1"; shift 1
+run_"$cmd" "$@"
