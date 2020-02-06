@@ -3,7 +3,8 @@ set -eu
 root="${1:?first argument must be a target directory to patch, ex. ~}"
 ./sync | while read f
 do
-	awk '/^#= / { system(substr($0, 4)); next } //' < "$root"/"$f" > "$root"/"$f".hostpatched
-	truncate -s -1 "$root"/"$f".hostpatched
-	mv "$root"/"$f".hostpatched "$root"/"$f"
+	f="$root/$f"
+	awk '/^#= / {system(substr($0, 4)); next} // { printf "%s%s", $0, RT }' < "$f" > "$f".patched
+	cat "$f".patched > "$f"
+	rm "$f".patched
 done
