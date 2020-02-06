@@ -15,15 +15,7 @@ alias mount='sudo mount'
 alias umount='sudo umount'
 alias sv='sudo sv'
 alias alsamixer='alsamixer --no-color'
-
 alias g=git
-# alias G='git status'
-# alias Gco='git checkout'
-# alias Gt='git log --graph --oneline --all'
-# alias Gb='git branch'
-# alias Ga='git add'
-# alias Gc='git commit -v'
-# alias Gd='git diff'
 
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
