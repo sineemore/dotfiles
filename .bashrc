@@ -3,7 +3,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-PS1="\h \W "
+#= if [ "$(hostname)" = default ]; then echo "PS1='\W'"; else echo "PS1='\h \W'"; fi
 HISTFILE=~/..bash_history
 HISTSIZE=333333
 HISTCONTROL=ignoreboth
