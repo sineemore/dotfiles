@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+root="${1:?first argument must be a target directory to patch, ex. ~}"
+./sync | while read f
+do
+	awk '/^#= / { system(substr($0, 4)); next } //' < "$root"/"$f" > "$root"/"$f".hostpatched
+	mv "$root"/"$f".hostpatched "$root"/"$f"
+done
