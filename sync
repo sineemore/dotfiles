@@ -17,5 +17,6 @@ if [ $# -eq 0 ]
 then
 	files
 else
+	: "${2:?specify target and source directories}"
 	files | rsync --ignore-missing-args --files-from - "$@"
 fi
