@@ -16,6 +16,7 @@ alias umount='sudo umount'
 alias sv='sudo sv'
 alias alsamixer='alsamixer --no-color'
 
+alias g=git
 # alias G='git status'
 # alias Gco='git checkout'
 # alias Gt='git log --graph --oneline --all'

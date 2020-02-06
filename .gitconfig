@@ -1,3 +1,7 @@
 [user]
 	email = sineemore@disroot.org
 	name = sineemore
+[alias]
+	l = !git --no-pager log --oneline
+	s = status
+	co = checkout
