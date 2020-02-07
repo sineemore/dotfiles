@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# sync is a thin wrapper around rsync to move your dotfiles around
+# ex: to copy dotfiles from this repo to $HOME run ./sync . ~
+# ex: to list dotfiles, that will be copied run ./sync (w/o arguments)
+
 set -eu
 
 cd "$(dirname "$0")"
