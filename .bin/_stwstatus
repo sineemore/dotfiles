@@ -5,7 +5,7 @@ set -eu
 void_updates() {
 	_updates=/tmp/void-updates
 	xbps-install -Mun | cut -d' ' -f1 | sed -r 's/-[^-]+$//g' > "$_updates"
-	_notable_updates=$(grep -Fxf - <<-'PACKAGES' "$_updates"
+	_notable_updates=$(grep -Fxf - <<-'PACKAGES' "$_updates" || true
 	bash
 	chromium
 	firefox
