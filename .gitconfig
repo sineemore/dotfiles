@@ -7,3 +7,4 @@
 	co = checkout
 	a = add
 	r = reset
+	d = diff
