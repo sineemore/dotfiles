@@ -5,3 +5,5 @@
 	l = !git --no-pager log --oneline
 	s = status
 	co = checkout
+	a = add
+	r = reset
