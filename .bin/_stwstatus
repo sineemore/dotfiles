@@ -22,6 +22,7 @@ PACKAGES
 
 while :
 do
+	printf 'running\n\4\n'
 	void_updates
 	printf '\4\n'
 	sleep 30m
