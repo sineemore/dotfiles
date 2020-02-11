@@ -3,7 +3,8 @@
 	name = sineemore
 [alias]
 	l = !git --no-pager log --oneline
-	s = status
+	c = commit -v
+	s = status -sb
 	co = checkout
 	a = add
 	r = reset
