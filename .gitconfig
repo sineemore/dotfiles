@@ -2,10 +2,13 @@
 	email = sineemore@disroot.org
 	name = sineemore
 [alias]
-	l = !git --no-pager log --oneline
+	l = log --oneline
 	c = commit -v
 	s = status -sb
 	co = checkout
-	a = add
+	a = add -p
 	r = reset
 	d = diff
+
+[core]
+	pager = less -F
