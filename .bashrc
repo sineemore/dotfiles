@@ -24,19 +24,14 @@ bind '"\C-H": backward-kill-word'
 bind '"\e[M": kill-word'
 bind '"\e[P": delete-char'
 
-set_title() {
-	/usr/bin/printf '\e]2;%s\e\' "$1"
-}
+set_title() { printf '\e]2;%s\e\' "$1"; }
+write_osc_cwd() { printf '\e]7;%s\a' "$PWD"; }
 
 cd() {
-	builtin cd "$@" && \
-	set_title "$PWD"
+	builtin cd "$@" && write_osc_cwd && set_title "$PWD"
 }
 
+write_osc_cwd
 set_title "$PWD"
-
-human() {
-	numfmt --to iec
-}
 
 [ -f /usr/share/bash-completion ] && . /usr/share/bash-completion
