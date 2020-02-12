@@ -5,23 +5,28 @@ set -eu
 void_updates() {
 	_updates=/tmp/void-updates
 	xbps-install -Mun | cut -d' ' -f1 | sed -r 's/-[^-]+$//g' > "$_updates"
-	_notable_updates=$(grep -Fxf - <<-'PACKAGES' "$_updates" || true
+	_notable_updates=$(grep -Exf - <<-'PACKAGES' "$_updates" || true
 	bash
 	chromium
 	firefox
 	go
 	grub
-	linux
+	linux[0-9]+\.[0-9]+
 PACKAGES
 	)
 
 	_total_updates="$(wc -l < "$_updates")"
+	
 	if [ "$_total_updates" -eq 0 ]
 	then
 		printf 'up to date\n'
 	else
 		printf '%s ' $_notable_updates
-		printf '%s packages\n' "$_total_updates"
+		if [ -n "$_notable_updates" ]
+		then
+			printf '| '
+		fi
+		printf '%s packages\n' "$(( _total_updates - _notable_updates_count ))"
 	fi
 }
 
