@@ -16,8 +16,13 @@ PACKAGES
 	)
 
 	_total_updates="$(wc -l < "$_updates")"
-	printf '%s ' $_notable_updates
-	printf '%s packages\n' "$_total_updates"
+	if [ "$_total_updates" -eq 0 ]
+	then
+		printf 'up to date\n'
+	else
+		printf '%s ' $_notable_updates
+		printf '%s packages\n' "$_total_updates"
+	fi
 }
 
 while :
