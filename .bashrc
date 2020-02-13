@@ -10,6 +10,7 @@ HISTSIZE=333333
 HISTCONTROL=ignoreboth
 
 alias l='ls -Alhtr --color=auto'
+alias ls='ls --color=auto'
 alias xq='xbps-query -Rs'
 alias xi='sudo xbps-install'
 alias mount='sudo mount'
