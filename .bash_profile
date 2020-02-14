@@ -1,9 +1,9 @@
 #!/bin/bash
 
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.bin:$PATH"
-export PATH="$PATH:$HOME/.npm-packages/bin"
-export PATH="$PATH:$HOME/go/bin"
+PATH="$HOME/.local/bin:$PATH"
+PATH="$HOME/.bin:$PATH"
+PATH="$PATH:$HOME/.npm-packages/bin"
+PATH="$PATH:$HOME/go/bin"
 
 export EDITOR=vis
 export _JAVA_AWT_WM_NONREPARENTING=1
