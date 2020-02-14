@@ -9,15 +9,6 @@ HISTFILE=~/..bash_history
 HISTSIZE=333333
 HISTCONTROL=ignoreboth
 
-alias l='ls -Alhtr --color=auto'
-alias ls='ls --color=auto'
-alias xq='xbps-query -Rs'
-alias xi='sudo xbps-install'
-alias mount='sudo mount'
-alias umount='sudo umount'
-alias sv='sudo sv'
-alias alsamixer='alsamixer --no-color'
-alias g=git
 
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
@@ -25,14 +16,37 @@ bind '"\C-H": backward-kill-word'
 bind '"\e[M": kill-word'
 bind '"\e[P": delete-char'
 
-set_title() { printf '\e]2;%s\e\' "$1"; }
-write_osc_cwd() { printf '\e]7;%s\a' "$PWD"; }
+
+set_title() {
+	printf '\e]2;%s\e\' "$1"
+}
+
+write_osc_cwd() {
+	printf '\e]7;%s\a' "$PWD"
+}
 
 cd() {
-	builtin cd "$@" && write_osc_cwd && set_title "$PWD"
+	builtin cd "$@" \
+	&& write_osc_cwd \
+	&& set_title "$PWD"
 }
 
 write_osc_cwd
 set_title "$PWD"
+
+
+alias g=git
+alias l='ls -Alhtr --color=auto'
+alias xi='sudo xbps-install'
+alias xq='xbps-query -Rs'
+
+
+alias alsamixer='alsamixer --no-color'
+alias ls='ls --color=auto'
+alias man='man -C ~/.man.conf'
+alias mount='sudo mount'
+alias sv='sudo sv'
+alias umount='sudo umount'
+
 
 [ -f /usr/share/bash-completion ] && . /usr/share/bash-completion
