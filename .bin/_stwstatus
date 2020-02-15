@@ -6,12 +6,14 @@ void_updates() {
 	_updates=/tmp/void-updates
 	xbps-install -Mun | cut -d' ' -f1 | sed -r 's/-[^-]+$//g' > "$_updates"
 	_notable_updates=$(grep -Exf - <<-'PACKAGES' "$_updates" || true
-	xbps
 	bash
 	chromium
 	firefox
 	go
 	grub
+	telegram-desktop
+	vscode
+	xbps
 	linux[0-9]+\.[0-9]+
 PACKAGES
 	)
