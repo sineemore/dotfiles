@@ -8,7 +8,7 @@ set -eu
 
 root="${1:?first argument must be a target directory to patch, ex. ~}"
 
-./sync | while read f
+./copy | while read f
 do
 	f="$root/$f"
 	awk '/^#= / {system(substr($0, 4)); next} // { printf "%s%s", $0, RT }' < "$f" > "$f".patched
