@@ -1,0 +1,23 @@
+#!/bin/sh
+
+set -eu
+
+t=
+
+clean() {
+	rm -rf "$t"
+	trap - EXIT
+}
+
+trap clean EXIT INT TERM
+
+t="$(mktemp -d)"
+mkdir "$t/a" "$t/b"
+
+./copy . "$t/a"
+./copy . "$t/b"
+./hostpatch "$t/a"
+
+./copy "$1" "$2"
+
+(cd "$t" && git diff a b) | (cd "$2" && patch -p2)
