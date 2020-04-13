@@ -48,4 +48,10 @@ alias mount='sudo mount'
 alias umount='sudo umount'
 
 
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+
 [ -f /usr/share/bash-completion ] && . /usr/share/bash-completion
