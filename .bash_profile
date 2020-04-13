@@ -12,6 +12,7 @@ export SYSDIRS="/boot /usr /opt /var /etc"
 export LESS=" -R "
 export LESSOPEN="|$HOME/.lessopen.sh %s"
 export LESSHISTFILE=-
+export SVDIR="$HOME/service"
 
 if [ "$0" = -bash -a "$(tty)" = /dev/tty1 ]; then
 	exec sxinit vt1 -keeptty &> /dev/null

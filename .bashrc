@@ -45,7 +45,6 @@ alias alsamixer='alsamixer --no-color'
 alias ls='ls --color=auto'
 alias man='man -C ~/.man.conf'
 alias mount='sudo mount'
-alias sv='sudo sv'
 alias umount='sudo umount'
 
 
