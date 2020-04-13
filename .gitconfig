@@ -12,3 +12,5 @@
 
 [core]
 	pager = less -F
+[credential]
+	helper = store
