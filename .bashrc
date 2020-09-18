@@ -47,6 +47,8 @@ alias man='man -C ~/.man.conf'
 alias mount='sudo mount'
 alias umount='sudo umount'
 
+_completion_loader git
+complete -o bashdefault -o default -o nospace -F __git_wrap__git_main g
 
 
 export PYENV_ROOT="$HOME/.pyenv"
