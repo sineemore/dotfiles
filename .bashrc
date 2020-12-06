@@ -3,8 +3,9 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-#= test "$(hostname)"  = default && echo "PS1='\W '"
-#= test "$(hostname)" != default && echo "PS1='\h \W '"
+PS1='\h \W '
+
+
 HISTFILE=~/..bash_history
 HISTSIZE=333333
 HISTCONTROL=ignoreboth
@@ -39,9 +40,6 @@ alias g=git
 alias l='ls -Alhtr --color=auto'
 alias xi='sudo xbps-install'
 alias xq='xbps-query -Rs'
-
-
-alias alsamixer='alsamixer --no-color'
 alias ls='ls --color=auto'
 alias man='man -C ~/.man.conf'
 alias mount='sudo mount'
@@ -51,9 +49,10 @@ _completion_loader git
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main g
 
 
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-
 [ -f /usr/share/bash-completion ] && . /usr/share/bash-completion
+
+
+if command -v pyenv 1>/dev/null 2>&1
+then
+	eval "$(pyenv init -)"
+fi
