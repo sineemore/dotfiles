@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+cd ~/void-packages
+git pull
+./xbps-src pkg "$1"
+/bin/xi "$1"
