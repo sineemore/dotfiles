@@ -1,3 +1,3 @@
 #!/bin/sh
 # alsamixer is insane at abusing the interface with colors
-exec alsamixer --no-color
+exec /bin/alsamixer --no-color
