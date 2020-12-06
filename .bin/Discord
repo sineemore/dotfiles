@@ -1,0 +1,3 @@
+#!/bin/sh
+# do I really need a PulseAudio server?
+exec apulse Discord
