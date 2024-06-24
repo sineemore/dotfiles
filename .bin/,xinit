@@ -1,0 +1,8 @@
+#!/bin/sh
+
+xoptions=
+if lspci | grep -q -i nvidia; then
+	xoptions="-config nvidia.xorg.conf"
+fi
+
+exec xinit /home/user/.x -- $xoptions

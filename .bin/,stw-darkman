@@ -1,0 +1,22 @@
+#!/bin/sh
+
+set -eu
+
+cmd="$1"
+
+current="$(darkman get)"
+next=""
+if [ "$current" = "light" ]; then
+    next="dark"
+else
+    next="light"
+fi
+
+case "$cmd" in
+draw|match)
+    printf '[set %s]' "$next"
+    ;;
+run)
+    darkman toggle >/dev/null 2>&1
+    ;;
+esac

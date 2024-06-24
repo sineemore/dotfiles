@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+# Remove packages with vim + xbps-remove
+
+set -eu
+
+cleanup() {
+    rm -f "$all" "$picked" "$removed"
+    trap - EXIT
+}
+
+trap cleanup EXIT INT HUP TERM
+
+all="$(mktemp)"
+picked="$(mktemp)"
+removed="$(mktemp)"
+
+test -f "$all"
+test -f "$picked"
+test -f "$removed"
+
+xbps-query -m | sort | while read -r package
+do
+    desc="$(xbps-query "$package" | grep -E '^short_desc:' | sed 's/^short_desc: //')"
+    printf '%s|%s\n' "$package" "$desc"
+done | column -t -l 2 -s '|' | tee "$all" > "$picked"
+
+vim -- "$picked"
+
+comm -23 "$all" "$picked" | cut -d ' ' -f 1 > "$removed"
+
+if [ "$(wc -l < "$removed")" -eq 0 ]
+then
+    exit 0
+fi
+
+sudo xbps-remove $(tr '\n' ' ' < "$removed")

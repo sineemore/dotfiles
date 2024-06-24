@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -eu
+
+service="$(cd /var/service && realpath -es -- "$1")"
+sudo rm -- "$service"

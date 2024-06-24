@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# Take a screenshot of a region
+
+set -eu
+mkdir -p ~/screenshots
+cd ~/screenshots
+scrot -s

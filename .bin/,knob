@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+# Keyboard knob
+
+set -eu
+
+m="$1"
+d="$2"
+
+brightness() {
+    local mon="DP-4"
+    local diff="$1"
+    local steps="$2"
+    i=0
+    while [ $i -lt "$steps" ]; do
+        local current_brightness="$(xrandr --current --verbose | grep "${mon} connected" -A 5 | tail -n1 | cut -d: -f2 | tr -cd '0-9.')"
+        local new_brightness="$(lua -e "print(math.min(math.max(0, ${current_brightness} + (${diff})), 1))")"
+        xrandr --output "${mon}" --brightness "${new_brightness}"
+        i=$((i + 1))
+
+	if [ "$new_brightness" = "0" -or "$new_brightness" = "1" ]; then
+		return
+	fi
+    done
+}
+
+case "${m}-${d}" in
+none-l)
+    brightness -0.02 10
+    ;;
+none-r)
+    brightness 0.02 10
+    ;;
+none-m)
+    darkman toggle
+    ;;
+esac

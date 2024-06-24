@@ -1,23 +1,17 @@
 #!/bin/sh
-
-# copy is a thin wrapper around rsync to move your dotfiles around
-# ex: to copy dotfiles from this repo to $HOME run ./copy . ~
-# ex: to list dotfiles, that will be copied run ./copy (w/o arguments)
+#
+# copy is a wrapper around rsync to move dotfiles around
 
 set -eu
 
-cd "$(dirname "$0")"
-
-files() {
-	git ls-files \
-		| grep '^\.' \
-		| grep -v '^\.gitignore$'
+git ls-files \
+| grep -v '^\.gitignore$' \
+| grep '^\.' \
+| {
+	if [ $# -ge 2 ]
+	then
+		rsync -Eti --ignore-missing-args --files-from - "$@"
+	else
+		cat
+	fi
 }
-
-if [ $# -eq 0 ]
-then
-	files
-else
-	: "${2:?specify target and source directories}"
-	files | rsync --ignore-missing-args --files-from - "$@"
-fi

@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -eu
+
+if [ $# -eq 1 ] && [ "$1" = "run" ]; then
+    exec stw \
+        -f 'monospace:size=10' \
+        -g ,-0 \
+        -r 'Need a quote\?' \
+        -p120 \
+        "$0"
+fi
+
+if [ "${STW_SELECTED+x}" = x ];
+then
+    printf '\n'
+    fortune -ca | sed 's/\t/    /g' | fold | sed -e 's/^/  /' -e 's/$/  /'
+    printf '\n'
+else
+    printf 'Need a quote?'
+fi

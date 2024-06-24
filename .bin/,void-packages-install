@@ -1,4 +1,6 @@
 #!/bin/sh -e
+#
+# Build and install a package from void-packages
 
 cd ~/void-packages
 git pull

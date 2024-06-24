@@ -1,0 +1,41 @@
+#!/bin/sh
+#
+# Open IDE and terminal in a project directory
+
+set -eu
+
+subfolders() {
+	local path="$1"
+	[ -d "$path" ] || return 0
+	find "$path" -maxdepth 1 -mindepth 1 -type d
+}
+
+cd ~
+
+selected="$(
+{
+subfolders ai
+subfolders beans
+subfolders ss/projects
+subfolders x
+subfolders src
+echo .bin
+echo .service
+echo '~'
+} | ,xmenu
+)"
+
+if [ -z "$selected" ]
+then
+	exit 1
+fi
+
+# } | dmenu -fn 'monospace:size=14' -nb '#0074D9' -nf '#ffffff' -sb '#ffffff' -sf '#000000' -l 10 "$@"
+
+if ! [ "~" = "$selected" ]
+then
+	cd -- "$selected"
+fi
+
+alacritty &
+code-oss --enable-proposed-api GitHub.copilot --password-store="gnome" . &

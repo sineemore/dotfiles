@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -eu
+
+service="$(cd /etc/sv && realpath -es -- "$1")"
+sudo ln -s -- "$service" /var/service/

@@ -1,0 +1,12 @@
+{
+    "bitwarden_folder_id": "c381cd24-6e6d-4f51-bf86-b19c0098882e",
+    "patterns": [
+        "/home/user/.ssh/*",
+        "!/home/user/.ssh/*known_hosts*",
+        "/home/user/.secrets/*",
+        "/home/user/.config/git/work",
+        "/home/user/.config/git/config",
+        "/home/user/.docker/config.json",
+        "/etc/wpa_supplicant/wpa_supplicant.conf"
+    ]
+}

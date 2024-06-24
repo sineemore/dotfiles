@@ -1,0 +1,26 @@
+super + p
+	,xrun
+
+super + shift + p
+	,dmenu_projects
+
+super + l
+	slock
+
+super + e
+	pcmanfm
+
+super + c
+	clipmenu
+
+Print
+	,screenshot
+
+ctrl + Prior
+	,screenshot
+
+{ctrl,alt,super,shift} {XF86Tools,XF86Launch5,XF86Launch6}
+	,knob {ctrl,alt,super,shift} {l,r,m}
+
+{XF86Tools,XF86Launch5,XF86Launch6}
+	,knob none {l,r,m}

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -eu
+
+if [ $# -eq 0 ]; then
+    exec git format-patch --stdout HEAD^
+fi
+
+filename="$1"
+git format-patch --stdout HEAD^ > "${filename}-$(date +%Y%m%d)-$(git rev-parse --short HEAD).diff"

@@ -1,6 +1,6 @@
-[user]
-	email = sineemore@disroot.org
-	name = sineemore
+[include]
+	path = ~/.config/git/config
+
 [alias]
 	l = log --oneline
 	c = commit -v
@@ -9,10 +9,13 @@
 	a = add -p
 	r = reset
 	d = diff
+	b = branch --sort=-committerdate
 
 [core]
 	pager = less -F
+
 [credential]
 	helper = store
+
 [pull]
-        ff = only
+	ff = only

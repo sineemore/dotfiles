@@ -1,0 +1,7 @@
+[general]
+import = [
+    "themes/themes/ayu_dark.toml"
+]
+
+[colors.primary]
+background = "#111111"

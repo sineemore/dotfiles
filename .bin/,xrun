@@ -1,0 +1,6 @@
+#!/bin/sh
+cmd="$(dmenu_path | ,xmenu)"
+if [ -n "$cmd" ]
+then
+    exec "$cmd"
+fi

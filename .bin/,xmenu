@@ -1,0 +1,24 @@
+#!/bin/sh
+#
+# fzf + alacritty as X menu
+
+set -eu
+
+mkdir -p "$XDG_RUNTIME_DIR/tmp"
+
+in="$(mktemp -p "$XDG_RUNTIME_DIR/tmp")"
+out="$(mktemp -p "$XDG_RUNTIME_DIR/tmp")"
+exec 3>"$in"
+exec 4<"$in"
+exec 5>"$out"
+exec 6<"$out"
+rm "$in" "$out"
+
+cat >&3
+
+alacritty \
+    --class stline \
+    --config-file ~/.config/alacritty/alacritty-float.toml \
+    -e sh -c "fzf --no-mouse --no-info --no-scrollbar --no-color --padding=1 --separator=' ' --prompt='  ' --pointer='>' <&4 >&5"
+
+cat <&6

@@ -1,0 +1,111 @@
+#!/bin/sh
+#
+# Connect to a wifi network and save config
+
+set -eu
+
+printf 'scanning...\n' >&2
+
+wpa() {
+    sudo wpa_cli "$@" 2>/dev/null
+}
+
+wpa scan >/dev/null 2>&1
+
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT INT TERM
+
+networks="${tmp}/networks"
+prev="${tmp}/prev"
+current="${tmp}/current"
+
+touch "$current"
+
+for i in $(seq 1 5)
+do
+    sleep 1s
+
+    cp "$current" "$prev"
+
+    wpa scan_results 2>/dev/null | tail -n +3 | grep . >>"$networks"
+    sort -u -k1,1 <"$networks" | sponge "$networks"
+
+    cut -f5- < "$networks" > "$current"
+
+    sort <"$current" | sponge "$current"
+
+    comm -13 "$prev" "$current"
+done
+
+cat "$networks" | while read network
+do
+    ssid=$(printf "%s\n" "$network" | cut -f5-)
+    frequency=$(printf "%s\n" "$network" | cut -f2)
+    signal=$(printf "%s\n" "$network" | cut -f3)
+
+    if [ -z "$ssid" ]
+    then
+        continue
+    fi
+
+    frequency_human='  '
+    if [ "$frequency" -gt 5000 ]
+    then
+        frequency_human=5g
+    fi
+
+    signal_percent=0
+    if [ "$signal" -lt -100 ]
+    then
+        signal_percent=0
+    elif [ "$signal" -gt -50 ]
+    then
+        signal_percent=100
+    else
+        signal_percent=$((2 * (signal + 100)))
+    fi
+
+    signal_percent=$((signal_percent / 10))
+
+    signal_gauge='[]'
+    case $signal_percent in
+        0)  signal_gauge='[]          ' ;;
+        1)  signal_gauge='[.]         ' ;;
+        2)  signal_gauge='[..]        ' ;;
+        3)  signal_gauge='[...]       ' ;;
+        4)  signal_gauge='[....]      ' ;;
+        5)  signal_gauge='[.....]     ' ;;
+        6)  signal_gauge='[......]    ' ;;
+        7)  signal_gauge='[.......]   ' ;;
+        8)  signal_gauge='[........]  ' ;;
+        9)  signal_gauge='[.........] ' ;;
+        10) signal_gauge='[..........]' ;;
+    esac
+
+    printf '%s %s %s\n' "$frequency_human" "$signal_gauge" "$ssid"
+done | sponge "$networks"
+
+ssid=$(fzf --prompt 'ssid: ' <"$networks")
+if [ -z "$ssid" ]
+then
+    printf 'no network selected\n' >&2
+    exit 1
+fi
+
+ssid=$(printf '%s\n' "$ssid" | sed -r 's/^.{16}//g')
+printf 'connecting to %s\n' "$ssid" >&2
+
+read -p 'password: ' password
+
+network_id=$(wpa add_network | tail -n+2)
+if [ -z "$network_id" ]
+then
+    printf 'failed to add network to wpa_supplicant\n' >&2
+    exit 1
+fi
+
+wpa set_network "$network_id" ssid "\"$ssid\"" >/dev/null
+wpa set_network "$network_id" psk "\"$password\"" >/dev/null
+wpa enable_network "$network_id" >/dev/null
+wpa save_config >/dev/null
+wpa reconfigure >/dev/null

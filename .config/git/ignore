@@ -1,4 +1,2 @@
-/.vscode
-
-# Python virtual enviroment
-/venv
+/.envrc
+haha

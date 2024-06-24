@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# Start NordVPN
+
+exec ~/x/nord/bin/pick.sh

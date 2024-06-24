@@ -1,0 +1,6 @@
+[font]
+size = 14
+[general]
+import = [
+    "current-theme.toml"
+]

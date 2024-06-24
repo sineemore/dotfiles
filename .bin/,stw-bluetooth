@@ -1,0 +1,23 @@
+#!/bin/sh
+
+set -eu
+
+cmd="$1"
+device="$2"
+
+device_name="$(bluetoothctl devices | grep "$device" | head -n1 | cut -d' ' -f3-)"
+connected="$(bluetoothctl info "$device" | grep -q 'Connected: yes' && echo 1 || echo 0)"
+
+action=""
+if [ $connected -eq 1 ]; then
+    action="disconnect"
+else
+    action="connect"
+fi
+
+case "$cmd" in
+draw|match)
+    printf '[%s %s]' "$action" "$device_name" ;;
+run)
+    bluetoothctl "$action" "$device" >/dev/null 2>&1 ;;
+esac
